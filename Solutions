@@ -23,6 +23,36 @@
    GROUP BY keyword
    ORDER BY genre_count DESC;
 
+6) SELECT
+      g.youtuber,
+      COUNT(c.commentid) AS comment_count,
+      SUM(v.likes) AS like_count
+   FROM GLOBALSTATS g
+   LEFT JOIN VIDEOSTATS v ON g.title = v.title
+   LEFT JOIN COMMENTS c ON v.videoid = c.videoid
+   GROUP BY g.youtuber
+   ORDER BY comment_count DESC, like_count DESC;
+
+7)SELECT
+      v.videoid,
+      COALESCE(g.country, 'United States') AS country, -- Change 'United States' to whatever country you are curious about
+      COUNT(*) AS view_count
+   FROM VIDEOSTATS v
+   LEFT JOIN GLOBALSTATS g ON v.title = g.title
+   GROUP BY v.videoid, g.country
+   ORDER BY view_count DESC;
+
+8)
+
+
+9)SELECT MAX(likes) AS max_likes
+  FROM VIDEOSTATS;
+
+
+10)
+
+
+
 
 
 
