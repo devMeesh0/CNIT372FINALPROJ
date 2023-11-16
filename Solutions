@@ -14,5 +14,16 @@
    ORDER BY likes DESC
    LIMIT 1;
 
+4) SELECT videoid, SUM(views) AS total_watch_time
+   FROM VIDEOSTATS
+   GROUP BY videoid;
+
+5) SELECT keyword, COUNT(*) AS genre_count
+   FROM VIDEOSTATS
+   GROUP BY keyword
+   ORDER BY genre_count DESC;
+
+
+
 
 
