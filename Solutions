@@ -1,0 +1,18 @@
+1) SELECT COUNT(DISTINCT video_type) AS num_video_types
+   FROM VIDEOSTATS;
+
+
+2) SELECT title, AVG(views) AS average_views
+   FROM VIDEOSTATS
+   GROUP BY title
+   ORDER BY average_views DESC
+   LIMIT 1;
+
+
+3) SELECT commentid, videoid, commentcontent, likes, sentiment
+   FROM COMMENTS
+   ORDER BY likes DESC
+   LIMIT 1;
+
+
+
