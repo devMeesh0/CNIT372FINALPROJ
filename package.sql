@@ -13,7 +13,11 @@ CREATE OR REPLACE PACKAGE video_package AS
 
   PROCEDURE get_country_view_count(p_videoid OUT NUMBER, p_country OUT VARCHAR2, p_view_count OUT NUMBER);
 
+  PROCEDURE get_average_popularity(p_average_popularity OUT NUMBER);
+
   PROCEDURE get_max_likes(p_max_likes OUT NUMBER);
+
+  PROCEDURE get_day_of_highest_uploads(p_day_of_highest_uploads OUT VARCHAR2, p_upload_count OUT NUMBER);
 
 END video_package;
 
@@ -75,9 +79,27 @@ CREATE OR REPLACE PACKAGE BODY video_package AS
     ORDER BY view_count DESC;
   END get_country_view_count;
 
+  PROCEDURE get_average_popularity(p_average_popularity OUT NUMBER) IS
+  BEGIN
+    SELECT AVG(vs.views / vs.comments) INTO p_average_popularity
+    FROM VIDEOSTATS vs
+    JOIN GLOBALSTATS gs ON vs.videoid = gs.videoid
+    ORDER BY (vs.views / vs.comments) DESC
+    FETCH FIRST 10 ROWS ONLY;
+  END get_average_popularity;
+
   PROCEDURE get_max_likes(p_max_likes OUT NUMBER) IS
   BEGIN
     SELECT MAX(likes) INTO p_max_likes FROM VIDEOSTATS;
   END get_max_likes;
+
+  PROCEDURE get_day_of_highest_uploads(p_day_of_highest_uploads OUT VARCHAR2, p_upload_count OUT NUMBER) IS
+  BEGIN
+    SELECT TO_CHAR(publishedat, 'Day'), COUNT(*) INTO p_day_of_highest_uploads, p_upload_count
+    FROM VIDEOSTATS
+    GROUP BY TO_CHAR(publishedat, 'Day')
+    ORDER BY upload_count DESC
+    FETCH FIRST 1 ROWS ONLY;
+  END get_day_of_highest_uploads;
 
 END video_package;
