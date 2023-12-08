@@ -49,7 +49,11 @@
   FROM VIDEOSTATS;
 
 
-10)
+10) SELECT TO_CHAR(publishedat, 'Day') AS day_of_highest_uploads, COUNT(*) AS upload_count
+    FROM VIDEOSTATS
+    GROUP BY TO_CHAR(publishedat, 'Day')
+    ORDER BY upload_count DESC
+    FETCH FIRST 1 ROWS ONLY;
 
 
 
