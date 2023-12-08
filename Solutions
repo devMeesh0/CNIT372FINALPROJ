@@ -42,7 +42,11 @@
    GROUP BY v.videoid, g.country
    ORDER BY view_count DESC;
 
-8)
+8) SELECT AVG(vs.views / vs.comments) AS average_popularity
+   FROM VIDEOSTATS vs
+   JOIN GLOBALSTATS gs ON vs.videoid = gs.videoid
+   ORDER BY (vs.views / vs.comments) DESC
+   FETCH FIRST 10 ROWS ONLY; 
 
 
 9)SELECT MAX(likes) AS max_likes
